@@ -1,0 +1,68 @@
+
+//Before Intalling anything install these
+sudo yum install g++ #needed to run ingest
+sudo yum install python3-pip
+export HNSWLIB_NO_NATIVE=1 
+sudo yum install -y python3.11-devel.x86_64 #needed to run pip install fo requirements.txt
+sudo yum install sqlite-devel #needed to run ingest
+sudo yum install git
+sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y 
+
+
+or below
+sudo yum install g++ python3-pip python3.11-devel.x86_64 sqlite-devel git gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y 
+
+
+//Prepare for Python 3.11, download and install
+sudo mkdir pythonsource
+cd pythonsource
+sudo chmod 777 -R ./
+wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz 
+tar xzf Python-3.11.4.tgz 
+cd Python-3.11.4 
+./configure --enable-optimizations 
+sudo make altinstall 
+
+or below
+sudo mkdir pythonsource && cd pythonsource && sudo chmod 777 -R ./ && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz && cd Python-3.11.4 && ./configure --enable-optimizations && sudo make altinstall 
+
+
+
+//Download porivateGPT code and run virtual environment and download models and update requirements.txt
+cd /usr/src
+sudo mkdir privategptsourcec
+cd privategptsourcec
+sudo git clone https://github.com/imartinez/privateGPT
+cd privateGPT
+sudo chmod 777 -R ./
+python3.11 -m venv myenv
+source myenv/bin/activate
+mkdir models
+cd models
+wget https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin
+cd ..
+cp example.env .env
+
+
+or below
+cd /usr/src && sudo mkdir privategptsource && cd privategptsource && sudo git clone https://github.com/imartinez/privateGPT && cd privateGPT && sudo chmod 777 -R ./ && python3.11 -m venv myenv && source myenv/bin/activate && mkdir models && cd models && wget https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin && cd .. && cp example.env .env
+
+
+//update requirements.txt to comment unstructed
+vi requirements.txt
+PRESS i
+go to line unstructured==0.8.0 and make it like this
+#unstructured==0.8.0
+PRESS esc
+:wq
+
+
+//Perform pip installations and igest and run
+pip3 install -r requirements.txt --ignore-installed
+python3.11 ingest.py
+python3.11 privateGPT.py
+
+
+ ssh-keygen -t rsa -b 4096
+
+ssh -i mykey ec2-user@3.31.84.239
